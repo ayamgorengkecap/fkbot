@@ -82,6 +82,11 @@ def show_menu():
     print(f"    {G}12.{W} Validate Telegram sessions")
     print(f"    {G}13.{W} Copy Telegram sessions")
     
+    print(f"\n{Y}  ▸ EDIT DATA{W}")
+    print(f"    {G}14.{W} Edit emails.txt")
+    print(f"    {G}15.{W} Edit proxies.txt")
+    print(f"    {G}16.{W} Edit vk_tokens.txt")
+    
     print(f"\n{C}{'═' * 62}{W}")
     print(f"    {R}0.{W}  Exit")
     print(f"{C}{'═' * 62}{W}")
@@ -233,6 +238,26 @@ def copy_telegram_menu():
     """Copy Telegram sessions"""
     run_external_script('copy_telegram_sessions.py')
 
+def edit_data_file(filename):
+    """Edit data file with nano"""
+    filepath = os.path.join(BASE_DIR, 'data', filename)
+    
+    # Create file if not exists
+    if not os.path.exists(filepath):
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        with open(filepath, 'w') as f:
+            if filename == 'emails.txt':
+                f.write("# Satu email per baris\n# Contoh:\n# email1@gmail.com\n# email2@gmail.com\n")
+            elif filename == 'proxies.txt':
+                f.write("# Format: IP:PORT:USERNAME:PASSWORD\n# Contoh:\n# 1.2.3.4:8080:user:pass\n")
+            elif filename == 'vk_tokens.txt':
+                f.write("# VK OAuth URL lengkap, satu per baris\n# Cara dapat: buka link di browser lalu copy URL hasil redirect\n# https://oauth.vk.com/authorize?client_id=2274003&scope=offline,wall,groups,friends,photos,status&response_type=token\n")
+    
+    print(f"\n  {C}Membuka {filename} dengan nano...{W}")
+    print(f"  {Y}Tekan Ctrl+X untuk keluar, Y untuk save{W}\n")
+    
+    subprocess.run(['nano', filepath])
+
 def main():
     """Main entry point"""
     # Create accounts folder if not exists
@@ -243,7 +268,7 @@ def main():
         show_banner()
         show_menu()
         
-        choice = input(f"\n  {C}Pilih menu [0-13]:{W} ").strip()
+        choice = input(f"\n  {C}Pilih menu [0-16]:{W} ").strip()
         
         if choice == '1':
             register_accounts()
@@ -293,6 +318,15 @@ def main():
         
         elif choice == '13':
             copy_telegram_menu()
+        
+        elif choice == '14':
+            edit_data_file('emails.txt')
+        
+        elif choice == '15':
+            edit_data_file('proxies.txt')
+        
+        elif choice == '16':
+            edit_data_file('vk_tokens.txt')
         
         elif choice == '0':
             print(f"\n  {G}Sampai jumpa!{W}\n")
