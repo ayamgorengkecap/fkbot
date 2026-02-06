@@ -8,6 +8,7 @@ import sys
 import os
 import re
 import subprocess
+import json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
@@ -86,6 +87,9 @@ def show_menu():
     print(f"    {G}14.{W} Edit emails.txt")
     print(f"    {G}15.{W} Edit proxies.txt")
     print(f"    {G}16.{W} Edit vk_tokens.txt")
+    
+    print(f"\n{Y}  ▸ SETTINGS{W}")
+    print(f"    {G}17.{W} Set Webshare API Key")
     
     print(f"\n{C}{'═' * 62}{W}")
     print(f"    {R}0.{W}  Exit")
@@ -258,6 +262,61 @@ def edit_data_file(filename):
     
     subprocess.run(['nano', filepath])
 
+def set_webshare_api():
+    """Set Webshare API key"""
+    config_path = os.path.join(BASE_DIR, 'config', 'api_keys.json')
+    
+    # Load existing config or create new
+    config = {}
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+        except:
+            pass
+    
+    # Show current key if exists
+    current_keys = config.get('webshare', {}).get('api_keys', [])
+    if current_keys and current_keys[0] != 'YOUR_WEBSHARE_API_KEY_1':
+        print(f"\n  {C}Current API Key:{W} {current_keys[0][:20]}...")
+    else:
+        print(f"\n  {Y}Belum ada Webshare API key{W}")
+    
+    print(f"\n  {C}Cara dapat Webshare API Key:{W}")
+    print(f"  1. Daftar di https://www.webshare.io/")
+    print(f"  2. Buka Dashboard > API > API Key")
+    print(f"  3. Copy API Key\n")
+    
+    api_key = input(f"  {C}Masukkan Webshare API Key (kosong = batal):{W} ").strip()
+    
+    if not api_key:
+        print(f"\n  {Y}Dibatalkan{W}")
+        return
+    
+    # Update config
+    if 'webshare' not in config:
+        config['webshare'] = {
+            'api_keys': [],
+            'api_url': 'https://proxy.webshare.io/api/v2/proxy/list/?mode=direct&page=1&page_size=100',
+            'replace_url': 'https://proxy.webshare.io/api/v2/proxy/replace/'
+        }
+    
+    config['webshare']['api_keys'] = [api_key]
+    
+    # Ensure telegram default exists
+    if 'telegram' not in config:
+        config['telegram'] = {
+            'api_id': '1724399',
+            'api_hash': '7f6c4af5220db320413ff672093ee102'
+        }
+    
+    # Save
+    os.makedirs(os.path.dirname(config_path), exist_ok=True)
+    with open(config_path, 'w') as f:
+        json.dump(config, f, indent=2)
+    
+    print(f"\n  {G}✓ Webshare API Key berhasil disimpan!{W}")
+
 def main():
     """Main entry point"""
     # Create accounts folder if not exists
@@ -268,7 +327,7 @@ def main():
         show_banner()
         show_menu()
         
-        choice = input(f"\n  {C}Pilih menu [0-16]:{W} ").strip()
+        choice = input(f"\n  {C}Pilih menu [0-17]:{W} ").strip()
         
         if choice == '1':
             register_accounts()
@@ -327,6 +386,9 @@ def main():
         
         elif choice == '16':
             edit_data_file('vk_tokens.txt')
+        
+        elif choice == '17':
+            set_webshare_api()
         
         elif choice == '0':
             print(f"\n  {G}Sampai jumpa!{W}\n")
