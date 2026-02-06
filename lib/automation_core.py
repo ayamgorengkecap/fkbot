@@ -2794,40 +2794,62 @@ class VKSerfingBot:
                         except: pass
                     self.tg_client = None
 
-            # PRIORITAS 3: Cek folder sessions/ global
+            # PRIORITAS 3: Cek folder sessions/ global - MATCH USERNAME/PHONE
             if hasattr(self, 'account_name') and self.account_name:
                 try:
                     import os
                     base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
                     sessions_dir = os.path.join(base_dir, 'sessions')
                     
-                    if os.path.exists(sessions_dir):
-                        # Look for session files matching account name
+                    # Get expected username/phone from config
+                    expected_username = tg_config.get('username', '').lower().replace('@', '')
+                    expected_phone = tg_config.get('phone', '').replace('+', '').replace(' ', '')
+                    expected_user_id = str(tg_config.get('user_id', ''))
+                    
+                    if os.path.exists(sessions_dir) and (expected_username or expected_phone or expected_user_id):
                         for f in os.listdir(sessions_dir):
                             if f.endswith('.session'):
                                 session_path = os.path.join(sessions_dir, f.replace('.session', ''))
+                                session_name = f.replace('.session', '').replace('+', '')
                                 
-                                print(f"{C}  → Trying global session: {f}{W}")
+                                # Try to match by phone number in filename
+                                if expected_phone and expected_phone in session_name:
+                                    print(f"{C}  → Found matching session by phone: {f}{W}")
+                                else:
+                                    continue  # Skip non-matching sessions
                                 
                                 self.tg_client = TelegramClient(session_path, api_id, api_hash)
                                 self.tg_client.connect()
                                 if self.tg_client.is_user_authorized():
-                                    print(f"{G}✓ TG loaded from sessions/ folder{W}")
-                                    
-                                    # Copy session to account folder for next time
+                                    # Verify username matches
                                     try:
-                                        import shutil
-                                        accounts_dir = os.path.join(base_dir, 'accounts')
-                                        dest_dir = os.path.join(accounts_dir, self.account_name)
-                                        dest_session = os.path.join(dest_dir, 'telegram.session')
-                                        if not os.path.exists(dest_session):
-                                            shutil.copy2(session_path + '.session', dest_session)
-                                            self.config['telegram']['session_file'] = 'telegram.session'
-                                            print(f"{C}  → Copied to {self.account_name}/telegram.session{W}")
+                                        me = self.tg_client.get_me()
+                                        session_username = (me.username or '').lower()
+                                        session_user_id = str(me.id)
+                                        
+                                        # Match by username or user_id
+                                        if (expected_username and session_username == expected_username) or \
+                                           (expected_user_id and session_user_id == expected_user_id):
+                                            print(f"{G}✓ TG session matched: @{session_username}{W}")
+                                            
+                                            # Copy session to account folder
+                                            try:
+                                                import shutil
+                                                accounts_dir = os.path.join(base_dir, 'accounts')
+                                                dest_dir = os.path.join(accounts_dir, self.account_name)
+                                                dest_session = os.path.join(dest_dir, 'telegram.session')
+                                                if not os.path.exists(dest_session):
+                                                    shutil.copy2(session_path + '.session', dest_session)
+                                                    self.config['telegram']['session_file'] = 'telegram.session'
+                                                    print(f"{C}  → Copied to {self.account_name}/telegram.session{W}")
+                                            except:
+                                                pass
+                                            
+                                            return True
+                                        else:
+                                            print(f"{Y}  → Username mismatch: @{session_username} != @{expected_username}{W}")
                                     except:
                                         pass
-                                    
-                                    return True
                                 
                                 self.tg_client.disconnect()
                                 self.tg_client = None
