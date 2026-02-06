@@ -3979,7 +3979,7 @@ def _do_bind_telegram(account_name, config, config_file):
     verify_script = f'''
 import sys, json
 sys.path.insert(0, '{script_dir}')
-from main import _create_vks_session, _tg_verify_binding, _tg_set_profile
+from main_original import _create_vks_session, _tg_verify_binding, _tg_set_profile
 
 with open("{config_file}") as f:
     config = json.load(f)
