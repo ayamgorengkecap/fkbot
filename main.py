@@ -265,7 +265,7 @@ def edit_data_file(filename):
     subprocess.run(['nano', filepath])
 
 def set_webshare_api():
-    """Set Webshare API key"""
+    """Set Webshare API keys (multiple supported)"""
     config_path = os.path.join(BASE_DIR, 'config', 'api_keys.json')
     
     # Load existing config or create new
@@ -277,33 +277,79 @@ def set_webshare_api():
         except:
             pass
     
-    # Show current key if exists
+    # Show current keys if exists
     current_keys = config.get('webshare', {}).get('api_keys', [])
-    if current_keys and current_keys[0] != 'YOUR_WEBSHARE_API_KEY_1':
-        print(f"\n  {C}Current API Key:{W} {current_keys[0][:20]}...")
+    valid_keys = [k for k in current_keys if k and not k.startswith('YOUR_')]
+    
+    print(f"\n  {C}{'='*50}{W}")
+    print(f"  {C}SET WEBSHARE API KEYS{W}")
+    print(f"  {C}{'='*50}{W}")
+    
+    if valid_keys:
+        print(f"\n  {G}API Keys tersimpan ({len(valid_keys)}):{W}")
+        for i, key in enumerate(valid_keys, 1):
+            print(f"    {i}. {key[:25]}...")
     else:
         print(f"\n  {Y}Belum ada Webshare API key{W}")
     
     print(f"\n  {C}Cara dapat Webshare API Key:{W}")
     print(f"  1. Daftar di https://www.webshare.io/")
     print(f"  2. Buka Dashboard > API > API Key")
-    print(f"  3. Copy API Key\n")
+    print(f"  3. Copy API Key")
     
-    api_key = input(f"  {C}Masukkan Webshare API Key (kosong = batal):{W} ").strip()
+    print(f"\n  {C}Pilihan:{W}")
+    print(f"    1. Tambah API Key baru")
+    print(f"    2. Hapus semua & input ulang")
+    print(f"    0. Kembali")
     
-    if not api_key:
-        print(f"\n  {Y}Dibatalkan{W}")
+    choice = input(f"\n  {C}Pilih [0-2]:{W} ").strip()
+    
+    if choice == '0':
+        return
+    
+    if choice == '2':
+        valid_keys = []
+        print(f"\n  {Y}API keys dihapus. Input yang baru:{W}")
+    
+    if choice in ['1', '2']:
+        # Input API keys
+        print(f"\n  {Y}Input API Key (kosong untuk selesai):{W}")
+        
+        while True:
+            key_num = len(valid_keys) + 1
+            api_key = input(f"  {C}API Key #{key_num}:{W} ").strip()
+            
+            if not api_key:
+                if valid_keys:
+                    break
+                else:
+                    print(f"  {R}Minimal 1 API key!{W}")
+                    continue
+            
+            # Validate key format (basic check)
+            if len(api_key) < 20:
+                print(f"  {R}API key terlalu pendek!{W}")
+                continue
+            
+            valid_keys.append(api_key)
+            print(f"  {G}✓ API Key #{key_num} ditambahkan{W}")
+            
+            cont = input(f"\n  {Y}Tambah API key lagi? (y/n):{W} ").strip().lower()
+            if cont != 'y':
+                break
+    
+    if not valid_keys:
+        print(f"\n  {Y}Tidak ada perubahan{W}")
         return
     
     # Update config
     if 'webshare' not in config:
         config['webshare'] = {
-            'api_keys': [],
             'api_url': 'https://proxy.webshare.io/api/v2/proxy/list/?mode=direct&page=1&page_size=100',
             'replace_url': 'https://proxy.webshare.io/api/v2/proxy/replace/'
         }
     
-    config['webshare']['api_keys'] = [api_key]
+    config['webshare']['api_keys'] = valid_keys
     
     # Ensure telegram default exists
     if 'telegram' not in config:
@@ -317,7 +363,8 @@ def set_webshare_api():
     with open(config_path, 'w') as f:
         json.dump(config, f, indent=2)
     
-    print(f"\n  {G}✓ Webshare API Key berhasil disimpan!{W}")
+    print(f"\n  {G}✓ {len(valid_keys)} API Key berhasil disimpan!{W}")
+    print(f"  {C}Semua API key akan digunakan untuk rotasi proxy{W}")
 
 def main():
     """Main entry point"""
