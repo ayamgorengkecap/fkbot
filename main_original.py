@@ -4263,6 +4263,9 @@ def bind_telegram_to_account():
                 for i, (acc, bal) in enumerate(accounts_no_tg, 1):
                     b_color = G if bal >= 100 else Y if bal >= 50 else W
                     print(f"  {i}. {acc:<14} {b_color}{bal:>6.2f}₽{W}")
+                
+                # Continue loop for next selection
+                continue
             else:
                 print(f"{R}Nomor tidak valid!{W}")
         except ValueError:
