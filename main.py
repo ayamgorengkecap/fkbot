@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'modules'))
 
 from modules.accounts import list_accounts, load_account, find_duplicate_accounts, create_new_account
 from modules.register import register_accounts, register_single_account
-from modules.tasks import run_all_accounts
+from modules.tasks import run_all_accounts, run_all_accounts_loop
 
 G = '\033[92m'
 R = '\033[91m'
@@ -338,10 +338,10 @@ def main():
             manual_register()
         
         elif choice == '3':
-            run_all_accounts(parallel=True, max_workers=10)
+            run_all_accounts_loop(parallel=True, max_workers=10)
         
         elif choice == '4':
-            run_all_accounts(parallel=False)
+            run_all_accounts_loop(parallel=False)
         
         elif choice == '5':
             run_selected_accounts_menu()
