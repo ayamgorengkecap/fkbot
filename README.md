@@ -133,6 +133,15 @@ Format: `IP:PORT:USERNAME:PASSWORD`
 
 ▸ WITHDRAW
   11. Withdraw ke Volet
+
+▸ TOOLS
+  12. Validate Telegram sessions
+  13. Copy Telegram sessions
+
+▸ EDIT DATA
+  14. Edit emails.txt
+  15. Edit proxies.txt
+  16. Edit vk_tokens.txt
 ```
 
 ---
