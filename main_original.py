@@ -3585,7 +3585,12 @@ def _set_vks_profile(vks_session, xsrf):
 
 
 def _load_telegram_api():
-    """Load Telegram API credentials from config"""
+    """Load Telegram API credentials - default included"""
+    # Default API (sudah tersedia, tidak perlu config)
+    DEFAULT_API_ID = 1724399
+    DEFAULT_API_HASH = '7f6c4af5220db320413ff672093ee102'
+    
+    # Try load from config (optional override)
     config_path = os.path.join(os.path.dirname(__file__), 'config', 'api_keys.json')
     try:
         with open(config_path) as f:
@@ -3597,12 +3602,11 @@ def _load_telegram_api():
                 return int(api_id), api_hash
     except:
         pass
-    return None, None
+    
+    # Return default
+    return DEFAULT_API_ID, DEFAULT_API_HASH
 
 TELETHON_API_ID, TELETHON_API_HASH = _load_telegram_api()
-
-if not TELETHON_API_ID:
-    print(f"{Y}⚠ Telegram API not configured. Edit config/api_keys.json to enable Telegram binding.{W}")
 
 def _create_vks_session(config, use_proxy=True, refresh_xsrf=False):
     """Create VKS session with proper headers"""
@@ -3806,7 +3810,7 @@ def _check_tg_bound_on_web(config):
 async def _telegram_auth_via_telethon(session_path, token):
     """Login Telegram via Telethon and interact with vkserfing_bot"""
     if not TELETHON_API_ID or not TELETHON_API_HASH:
-        print(f"{R}Telegram API not configured! Edit config/api_keys.json{W}")
+        print(f"{R}Telegram API error!{W}")
         return None
 
     from telethon import TelegramClient
