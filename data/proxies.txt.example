@@ -1,0 +1,5 @@
+# Satu proxy per baris
+# Format: IP:PORT:USERNAME:PASSWORD
+# Hapus .example dari nama file setelah mengisi
+1.2.3.4:8080:user1:pass1
+5.6.7.8:8080:user2:pass2

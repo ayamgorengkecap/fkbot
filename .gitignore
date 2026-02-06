@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/*.log
+*.log
+
+# Data files (user specific)
+data/emails.txt
+data/vk_tokens.txt
+data/proxies.txt
+
+# Accounts (contains sensitive data)
+accounts/*/config.json
+accounts/*/ig_session_*.json
+accounts/*/telegram_session.json
+accounts/*/*.session
+
+# Config with API keys
+config/api_keys.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.bak

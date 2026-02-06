@@ -1,0 +1,5 @@
+# Satu VK OAuth URL per baris (hasil login VK)
+# Format: https://oauth.vk.com/blank.html#access_token=XXX&user_id=123
+# Hapus .example dari nama file setelah mengisi
+https://oauth.vk.com/blank.html#access_token=vk1.xxx&user_id=111111
+https://oauth.vk.com/blank.html#access_token=vk1.yyy&user_id=222222

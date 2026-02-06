@@ -1,0 +1,70 @@
+{
+  "proxy": {
+    "proxy_string": "http://brljwfkw:yime06lbpz4v@161.123.5.123:5172",
+    "ip": "161.123.5.123",
+    "country": "Various",
+    "city": "Proxy",
+    "verified_at": "2026-01-29 13:13:37"
+  },
+  "user_agent": {
+    "user_agent": "Mozilla/5.0 (Linux; Android 12; DN2103) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.210 Mobile Safari/537.36",
+    "device": "OnePlus Nord 2",
+    "model": "DN2103",
+    "android_version": "12",
+    "chrome_version": "120.0.6099.210"
+  },
+  "credentials": {
+    "cookies": {
+      "sessid": "9mb8fj1gdnlheoh2t0m3f6m8ev",
+      "ref": "1bIZ%2BtEq0IUBduZ7q1erjpHPsvfMdN9cSQ%3D%3D",
+      "xsrf_token": "TURuSkZ6M1hEUUxUcUo4UW9NNHBLdz09",
+      "vkstoken": "pCH86ydYeP9hYlToiu3N27PHGN%2BA6MBYv96VqvSr%2FPB1j6QyDOVoV1g270naKY9b",
+      "vksid": "f5bqBpPZBkczPLHylQKJt1v3AV%2FmB1MR%2FRfxgrPSfYZUbPwF8SmffOaQZeorRi9b0dPGoA%3D%3D"
+    },
+    "xsrf_token": "TURuSkZ6M1hEUUxUcUo4UW9NNHBLdz09"
+  },
+  "settings": {
+    "wait_time_min": 11,
+    "wait_time_max": 21,
+    "delay_between_tasks": 25,
+    "auto_mode": true
+  },
+  "task_types": {
+    "vk_friends": true,
+    "vk_groups": true,
+    "vk_likes": true,
+    "vk_reposts": true,
+    "vk_polls": true,
+    "vk_videos": true,
+    "vk_views": true,
+    "telegram_followers": true,
+    "telegram_views": true,
+    "instagram_followers": false,
+    "instagram_likes": false,
+    "instagram_comments": false,
+    "instagram_videos": false
+  },
+  "vk_api": {
+    "enabled": true,
+    "access_token": "vk1.a.t0WhioLPkkT9SjlXsspaR2RXAyP3zLqv60c1Fm_0-Yq73qXfmXYtZ2FC1Ms3ueHf1afsOTISwN2V3dkg0OOtPJKpDIZs6Lb2k2Tway4c1npnj4EdHxXtZwIHh-mhwxsXKnjlXMC-2E2Bb6l-kfPizf-X7pLq0j9sKrk1EqcTGNJp3pm7c0H6id8uF266cx8rJ3nNnl_M8FyC7WyeLTPs8g",
+    "user_id": "1096994725"
+  },
+  "instagram": {
+    "enabled": false,
+    "username": "",
+    "password": ""
+  },
+  "telegram": {
+    "bound": true,
+    "id": 8308649508,
+    "username": "suleptikito",
+    "phone": "6283150183071",
+    "first_name": "Risma Tursia",
+    "last_name": "",
+    "session": "telegram_account_29.session",
+    "session_string": "1BVtsOH8Bu2onr4wXho4frEqMhMEEr-H3mccBcmICk4ZXtTs7WZT2SYzM5GOX_89ieNIYu_BzMwiyiElv9P1Kouv91TICQ5C9F4yfQvVEIqTZS4dGOtfkkOZryzcP20QbxQ_6ANEQpVw__hnfWhcFiKk9qCqhyvQJ-EYOzGmAakmCgLwvJDn1xeTpsJp8si6YiUu8kRG_jtturJrkMqwJVsnlV8g2eNv3uzZzkEJRp1MB2ps3pbg0kUpkt1dw7UIhtevL3ZGnUnUEB2iY5Zp7dMRzuit3Og6nOvoJHnMdSqXmMIGAmOeAgMlQ53GWOeBmSK0ZsU5qTDnIqWBbd8iOkCJgwkvUJ64=",
+    "api_id": "1724399",
+    "api_hash": "7f6c4af5220db320413ff672093ee102",
+    "bind_time": "2026-01-29T14:36:56.094052"
+  }
+}
