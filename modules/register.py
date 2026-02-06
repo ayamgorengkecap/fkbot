@@ -146,18 +146,12 @@ def load_input_data():
 def register_single_account(email, vk_token, vk_id, proxy, password='Aldo123##'):
     """Register single account using ORIGINAL register_bot.py logic"""
     try:
-        # Pre-check: Verify no duplicate VK ID or email BEFORE registration
-        from modules.accounts import check_duplicate_vk_id, check_duplicate_email
+        # Pre-check: Verify no duplicate VK ID BEFORE registration
+        from modules.accounts import check_duplicate_vk_id
         
         existing_vk = check_duplicate_vk_id(vk_id)
         if existing_vk:
             print(f"{R}❌ VK ID {vk_id} sudah terdaftar di: {existing_vk}{W}")
-            print(f"{Y}   Skipping untuk mencegah duplicate...{W}")
-            return None
-        
-        existing_email = check_duplicate_email(email)
-        if existing_email:
-            print(f"{R}❌ Email {email} sudah terdaftar di: {existing_email}{W}")
             print(f"{Y}   Skipping untuk mencegah duplicate...{W}")
             return None
         
