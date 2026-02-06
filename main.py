@@ -46,8 +46,10 @@ def show_banner():
 {R}    ┃{W} {C}>{W} auto register  {C}│{W} auto task            {R}┃{W}
 {R}    ┃{W} {C}>{W} multi account  {C}│{W} parallel mode        {R}┃{W}
 {R}    ┃{W} {C}>{W} auto withdraw  {C}│{W} telegram bind        {R}┃{W}
+{R}    ┃{W}                                           {R}┃{W}
+{R}    ┃{W}       {G}★ CODED BY: @aldo_tamvan ★{W}         {R}┃{W}
+{R}    ┃{W}                                           {R}┃{W}
 {R}    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛{W}
-{Y}              coded by: @aldo_tamvan{W}
 """)
 
 def show_menu():
