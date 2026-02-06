@@ -2794,6 +2794,50 @@ class VKSerfingBot:
                         except: pass
                     self.tg_client = None
 
+            # PRIORITAS 3: Cek folder sessions/ global
+            if hasattr(self, 'account_name') and self.account_name:
+                try:
+                    import os
+                    base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+                    sessions_dir = os.path.join(base_dir, 'sessions')
+                    
+                    if os.path.exists(sessions_dir):
+                        # Look for session files matching account name
+                        for f in os.listdir(sessions_dir):
+                            if f.endswith('.session'):
+                                session_path = os.path.join(sessions_dir, f.replace('.session', ''))
+                                
+                                print(f"{C}  → Trying global session: {f}{W}")
+                                
+                                self.tg_client = TelegramClient(session_path, api_id, api_hash)
+                                self.tg_client.connect()
+                                if self.tg_client.is_user_authorized():
+                                    print(f"{G}✓ TG loaded from sessions/ folder{W}")
+                                    
+                                    # Copy session to account folder for next time
+                                    try:
+                                        import shutil
+                                        accounts_dir = os.path.join(base_dir, 'accounts')
+                                        dest_dir = os.path.join(accounts_dir, self.account_name)
+                                        dest_session = os.path.join(dest_dir, 'telegram.session')
+                                        if not os.path.exists(dest_session):
+                                            shutil.copy2(session_path + '.session', dest_session)
+                                            self.config['telegram']['session_file'] = 'telegram.session'
+                                            print(f"{C}  → Copied to {self.account_name}/telegram.session{W}")
+                                    except:
+                                        pass
+                                    
+                                    return True
+                                
+                                self.tg_client.disconnect()
+                                self.tg_client = None
+                except Exception as e:
+                    print(f"{Y}⚠ Global sessions check failed: {str(e)[:40]}{W}")
+                    if hasattr(self, 'tg_client') and self.tg_client:
+                        try: self.tg_client.disconnect()
+                        except: pass
+                    self.tg_client = None
+
             # FALLBACK TERAKHIR: String session (jika file tidak ada)
             if session_string and session_string != 'null':
                 try:
